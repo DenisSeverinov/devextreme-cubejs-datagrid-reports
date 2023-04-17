@@ -1,6 +1,18 @@
 import { TableColumn } from "@cubejs-client/core";
 import { useCubeQuery } from "@cubejs-client/react";
-import DataGrid, { Column, FilterRow, GroupPanel, Export } from "devextreme-react/data-grid";
+import DataGrid, {
+  Column,
+  FilterRow,
+  GroupPanel,
+  Export,
+  FilterPanel,
+  HeaderFilter,
+  SearchPanel,
+  Summary,
+  TotalItem,
+  Paging,
+  StateStoring,
+} from "devextreme-react/data-grid";
 
 const getColumns = (columns: TableColumn[]) =>
   columns.map(({ key, title }) => (
@@ -43,9 +55,17 @@ export const TableUsers = () => {
   return (
     <DataGrid dataSource={dataSource} allowColumnResizing>
       <FilterRow visible />
+      <FilterPanel visible />
+      <HeaderFilter visible />
+      <SearchPanel visible width={300} placeholder="Search" />
+      <Paging defaultPageSize={10} />
+      <StateStoring enabled type="localStorage" storageKey="datagrid-options" />
       <GroupPanel visible />
       <Export enabled />
       {getColumns(columns)}
+      <Summary>
+        <TotalItem column="Users Company" summaryType="count" />
+      </Summary>
     </DataGrid>
   );
 };
