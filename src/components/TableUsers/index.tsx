@@ -1,12 +1,13 @@
 import { TableColumn } from "@cubejs-client/core";
 import { useCubeQuery } from "@cubejs-client/react";
-import DataGrid, { Column } from "devextreme-react/data-grid";
+import DataGrid, { Column, FilterRow, GroupPanel, Export } from "devextreme-react/data-grid";
 
 const getColumns = (columns: TableColumn[]) =>
   columns.map(({ key, title }) => (
     <Column
       key={key}
       caption={title}
+      dataField={key}
       calculateCellValue={(rowData: Record<string, string>) => rowData[key]}
     />
   ));
@@ -39,5 +40,12 @@ export const TableUsers = () => {
 
   const columns = resultSet.tableColumns();
 
-  return <DataGrid dataSource={dataSource}>{getColumns(columns)}</DataGrid>;
+  return (
+    <DataGrid dataSource={dataSource} allowColumnResizing>
+      <FilterRow visible />
+      <GroupPanel visible />
+      <Export enabled />
+      {getColumns(columns)}
+    </DataGrid>
+  );
 };
